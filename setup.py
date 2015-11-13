@@ -1,8 +1,8 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='simplebitcoinfuncs',
-    version='0.1.1',
+    version='0.1.2',
     install_requires=['pbkdf2'],
     description='Simple Python 2/3 functions for common Bitcoin operations',
     url='https://github.com/maxweisspoker/simplebitcoinfuncs',
@@ -10,6 +10,7 @@ setup(
     author='Maximilian Weiss',
     author_email='MaxWeiss@hotmail.com',
     license='MIT',
+    packages=find_packages(),
     classifiers=[
         'Development Status :: 4 - Beta',
         'License :: OSI Approved :: MIT License',
