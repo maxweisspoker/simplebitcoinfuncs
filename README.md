@@ -27,10 +27,10 @@ Bitcoin-related operations:
         retuns randomly_generated_ascii_wif_privkey
 
     compress(uncompressed_pubkey_hex_string):
-        returns uncompressed_pub_hex_string
+        returns compressed_pub_hex_string
 
     uncompress(compressed_pubkey_hex_string):
-        returns compressed_pub_hex_string
+        returns uncompressed_pub_hex_string
 
     privtopub(64_char_hex_string, output_compressed_pub=True):
         returns pubkey_hex_string
