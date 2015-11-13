@@ -243,8 +243,3 @@ class BIP32(object):
          else:
             return self.xprv
 
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod()
-
