@@ -326,7 +326,7 @@ Alternatively, consider ditching Windows.
 
 #####For Macs
 
-I have no idea how Homebrew or anything else related to Macs works. If you're programming Python on OSX, the Linux instructions should be good enough. But for your own benefit, a non-Mac version of Linux. GNU/Linux. Free software for freedom and all that.
+I have no idea how Homebrew or anything else related to Macs works. If you're programming Python on OSX, the Linux instructions should be good enough. But for your own benefit, consider moving to a non-Mac version of Linux. GNU/Linux. Free software for freedom and all that.
 
 
 
