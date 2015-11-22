@@ -299,12 +299,12 @@ class Coin(object):
             self.pubc = compress(self.pubu)
         self.hash160c = hash160(self.pubc)
         self.hash160u = hash160(self.pubu)
-        self.addrc = b58e(pubprefix + self.hash160c)
-        self.addru = b58e(pubprefix + self.hash160u)
         self.privprefix = privprefix
         if pubprefix == False:
             assert int(privprefix,16) > 127 and int(privprefix,16) < 256
             self.pubprefix = dechex(int(privprefix,16)-128,1)
         else:
             self.pubprefix = normalize_input(pubprefix)
+        self.addrc = b58e(pubprefix + self.hash160c)
+        self.addru = b58e(pubprefix + self.hash160u)
 
