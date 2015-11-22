@@ -305,6 +305,6 @@ class Coin(object):
             self.pubprefix = dechex(int(privprefix,16)-128,1)
         else:
             self.pubprefix = normalize_input(pubprefix)
-        self.addrc = b58e(pubprefix + self.hash160c)
-        self.addru = b58e(pubprefix + self.hash160u)
+        self.addrc = b58e(self.pubprefix + self.hash160c)
+        self.addru = b58e(self.pubprefix + self.hash160u)
 
