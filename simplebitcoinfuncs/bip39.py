@@ -172,9 +172,9 @@ class BIP39(object):
         words = wordlist.lower().lstrip(" ").rstrip(" ") \
                         .replace(u'\u3000'," ").replace("  "," ")
         words = words.split(" ")
-        assert len(wordlist) <= 93
-        assert len(wordlist) >= 3
-        assert len(wordlist) % 3 == 0
+        assert len(words) <= 93
+        assert len(words) >= 3
+        assert len(words) % 3 == 0
         # langlists = [BIP39ENGWORDLIST,BIP39JPWORDLIST,BIP39SPANISHWORLDLIST,
                      # BIP39FRWORDLIST,BIP39ZHSIMPWORDLIST,BIP39ZHTRADWORDLIST]
         # for i in range(len(langlists)):

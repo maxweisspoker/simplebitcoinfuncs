@@ -1,8 +1,8 @@
 Metadata-Version: 1.1
 Name: simplebitcoinfuncs
-Version: 0.1.4.2
+Version: 0.1.4.3
 Author: Maximilian Weiss
-Author-email: MaxWeiss at hotmail com
+Author-email: max at maxweiss io
 Home-page: https://github.com/maxweisspoker/simplebitcoinfuncs
 Download-url: https://github.com/maxweisspoker/simplebitcoinfuncs
 Summary: Simple Python 2/3 functions for common Bitcoin operations

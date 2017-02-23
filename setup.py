@@ -2,13 +2,13 @@ from setuptools import setup, find_packages
 
 setup(
     name='simplebitcoinfuncs',
-    version='0.1.4.2',
+    version='0.1.4.3',
     install_requires=['pbkdf2'],
     description='Simple Python 2/3 functions for common Bitcoin operations',
     url='https://github.com/maxweisspoker/simplebitcoinfuncs',
     keywords='bitcoin',
     author='Maximilian Weiss',
-    author_email='MaxWeiss@hotmail.com',
+    author_email='max@maxweiss.io',
     license='MIT',
     packages=find_packages(),
     classifiers=[
