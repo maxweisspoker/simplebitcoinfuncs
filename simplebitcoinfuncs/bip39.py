@@ -109,9 +109,9 @@ class BIP39(object):
         return self.en
 
     @staticmethod
-    def hextowords(h,lang=None):
-        WORD_LIST = None
-        if lang != None:
+    def hextowords(h,lang=''):
+        WORD_LIST = ''
+        if lang != '':
             lang = lang.lower()
         if lang == 'english' or lang == 'eng' or lang == 'en':
             WORD_LIST = BIP39ENGWORDLIST
@@ -135,9 +135,9 @@ class BIP39(object):
              ('zh' in lang and 'trad' in lang) or \
              ('hanyu' in lang and 'trad' in lang):
             WORD_LIST = BIP39ZHTRADWORDLIST
-        elif lang == None:
+        elif lang == '':
             WORD_LIST = BIP39ENGWORDLIST
-        elif lang != None:
+        elif lang != '':
             raise Exception('Unknown language input.')
         assert len(h) % 8 == 0
         b = strlify(bin(int(h,16))).replace("0b","").replace("'","") \
@@ -201,14 +201,14 @@ class BIP39(object):
                 newwords.append(normalize_input(words[i]).lower())
             except:
                 newwords.append(words[i].lower())
-        for i in range(len(newlist)):
+        for i in range(len(newwords)):
             b = b + (strlify(bin(int(newlist.index(newwords[i])))) \
                     .replace("0b","").replace("'","").replace('"',"") \
                     .replace("u","").zfill(11))
         cslen = len(b) % 32
         cs = b[-1*cslen:]
         b = b[:-1*cslen]
-        h = dechex(int(b,2),1).zfill(8*len(newlist)//3)
+        h = dechex(int(b,2),1).zfill(8*len(newwords)//3)
         cs2 = strlify(str(bin(int(sha256(h),16)))).replace("0b","") \
                      .replace("'","").replace('"',"").replace("u","") \
                      .zfill(256)[:cslen]
