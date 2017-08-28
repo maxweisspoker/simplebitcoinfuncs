@@ -25,9 +25,10 @@ try:
     #from .hexhashes import *  # Can still be explicity imported separately
     #from .ecmath import *     # but not including by default
     from .base58 import b58e, b58d
+    from .bech32 import bech32encode, bech32decode
     from .miscfuncs import strlify, isitstring, isitint, hexstrlify, hexreverse, dechex, normalize_input
     from .miscbitcoinfuncs import genkeyhex, genkey, oppushdatalen, intfromoppushdatalen, tovarint, numvarintbytes, fromvarint, getandstrip_varintdata, inttoDER, inttoLEB128, LEB128toint
-    from .bitcoin import uncompress, compress, privtopub, addprivkeys, subtractprivkeys, multiplypriv, multiplypub, addpubs, subtractpubs, pubtoaddress, validatepubkey, wiftohex, privtohex, Coin
+    from .bitcoin import uncompress, compress, privtopub, addprivkeys, subtractprivkeys, multiplypriv, multiplypub, addpubs, subtractpubs, pubtoaddress, pubtosegwit, validatepubkey, wiftohex, privtohex, Coin
     from .signandverify import sign, verify, checksigformat, signmsg, verifymsg, checkmsgsigformat
     from .stealth import paystealth, receivestealth, newstealthaddr
     from .bip32 import BIP32
@@ -45,9 +46,10 @@ except Exception as e:
     #from hexhashes import *
     #from ecmath import *
     from base58 import b58e, b58d
+    from bech32 import bech32encode, bech32decode
     from miscfuncs import strlify, isitstring, isitint, hexstrlify, hexreverse, dechex, normalize_input
     from miscbitcoinfuncs import genkeyhex, genkey, oppushdatalen, intfromoppushdatalen, tovarint, numvarintbytes, fromvarint, getandstrip_varintdata, inttoDER, inttoLEB128, LEB128toint
-    from bitcoin import uncompress, compress, privtopub, addprivkeys, subtractprivkeys, multiplypriv, multiplypub, addpubs, subtractpubs, pubtoaddress, validatepubkey, wiftohex, privtohex, Coin
+    from bitcoin import uncompress, compress, privtopub, addprivkeys, subtractprivkeys, multiplypriv, multiplypub, addpubs, subtractpubs, pubtoaddress, pubtosegwit, validatepubkey, wiftohex, privtohex, Coin
     from signandverify import sign, verify, checksigformat, signmsg, verifymsg, checkmsgsigformat
     from stealth import paystealth, receivestealth, newstealthaddr
     from bip32 import BIP32

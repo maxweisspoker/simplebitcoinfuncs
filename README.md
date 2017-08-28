@@ -21,6 +21,15 @@ Base58 encoding:
         returns hex_string
 
 
+Bech32 encoding:
+
+    bech32encode(witnessversion_int, witnessprogram_hexstr, testnet=False):
+        returns bech32_string
+
+    bech32decode(bech32_str):
+        returns (witnessversion_int, witnessprogram_hexstr)
+
+
 Bitcoin-related operations:
 
     genkey(compressed=True, prefix_byte='80'):
@@ -55,6 +64,9 @@ Bitcoin-related operations:
 
     pubtoaddress(pubkey_hex_string, address_prefix='00'):
         returns address_string
+
+    pubtosegwit(hexstr_pubkey_or_redeemscript, isprevitemredeem=False, witnessversion=0, output_p2sh=True, output_witprogram_only=False):
+        returns p2sh_addr_str___or___witness_program_hexstr
 
     validatepubkey(test_input):
         returns pubkey_hex_string if is_valid_pubkey else returns False

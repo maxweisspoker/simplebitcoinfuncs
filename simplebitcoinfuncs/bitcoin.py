@@ -12,6 +12,7 @@ try:
     from .hexhashes import *
     from .ecmath import *
     from .base58 import *
+    from .bech32 import bech32encode, bech32decode
     from .miscfuncs import *
     from .miscbitcoinfuncs import *
 except Exception as e:
@@ -23,6 +24,7 @@ except Exception as e:
     from hexhashes import *
     from ecmath import *
     from base58 import *
+    from bech32 import bech32encode, bech32decode
     from miscfuncs import *
     from miscbitcoinfuncs import *
 
@@ -173,6 +175,23 @@ def subtractpubs(p1,p2,outcompressed=True):
 
 def pubtoaddress(pub,prefix='00'):
     return b58e(prefix + hash160(pub))
+
+
+def pubtosegwit(pub, isredeemscript=False, witnessversion=0,
+                returnp2sh=True, returnprogram=False):
+    assert witnessversion >= 0 and witnessversion <= 16
+    if isredeemscript is False:
+        assert validatepubkey(pub) is not False and len(pub) == 66
+        pubhash = hash160(pub)
+    else:
+        pubhash = hash256(pub)
+    witprog = dechex(witnessversion,1) + dechex(len(pubhash)//2,1) + pubhash
+    if returnprogram:
+        return witprog
+    if returnp2sh:
+        return b58e("05" + hash160(witprog))
+    else:
+        return bech32encode(witnessversion, pubhash)
 
 
 def validatepubkey(pub):

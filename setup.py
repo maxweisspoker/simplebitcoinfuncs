@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='simplebitcoinfuncs',
-    version='0.1.4.7',
+    version='0.1.5',
     install_requires=['pbkdf2'],
     description='Simple Python 2/3 functions for common Bitcoin operations',
     url='https://github.com/maxweisspoker/simplebitcoinfuncs',
