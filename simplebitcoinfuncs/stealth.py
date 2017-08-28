@@ -33,7 +33,7 @@ except Exception as e:
     from bitcoin import *
 
 
-def paystealth(stealthaddr,ephempriv=genkeyhex(),_doctest_nonce=-1):
+def paystealth(stealthaddr,ephempriv=None,_doctest_nonce=-1):
     '''
     Input a stealth address, and optionally an ephemeral private key,
     and generate a payment pubkey and stealth OP_RETURN data.
@@ -50,6 +50,9 @@ def paystealth(stealthaddr,ephempriv=genkeyhex(),_doctest_nonce=-1):
     ('03e05931191100fa6cd072b1eda63079736464b950d2875e67f2ab2c8af9b07b8d', \
 '0600000124025c6fb169b0ff1c95426fa073fadc62f50a6e98482ec8b3f26fb73006009d1c00')
     '''
+
+    if ephempriv is None:
+        ephempriv = genkeyhex()
 
     addrhex = b58d(stealthaddr)
 
