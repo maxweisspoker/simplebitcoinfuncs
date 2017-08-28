@@ -6,26 +6,31 @@ import os
 import base64
 from binascii import hexlify, unhexlify
 try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
+try:
     from .ecmath import *
     from .hexhashes import *
     from .base58 import *
     from .miscfuncs import *
     from .miscbitcoinfuncs import *
     from .bitcoin import *
-except ValueError:
+    from .rfc6979 import generate_k
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
     from ecmath import *
     from hexhashes import *
     from base58 import *
     from miscfuncs import *
     from miscbitcoinfuncs import *
     from bitcoin import *
-except SystemError:
-    from ecmath import *
-    from hexhashes import *
-    from base58 import *
-    from miscfuncs import *
-    from miscbitcoinfuncs import *
-    from bitcoin import *
+    from rfc6979 import generate_k
 
 
 def sign(hash,priv,k=0):
@@ -44,7 +49,7 @@ def sign(hash,priv,k=0):
     '''
 
     if k == 0:
-        k = int(genkeyhex(),16)
+        k = generate_k(priv, hash)
 
     hash = int(hash,16)
     priv = int(priv,16)

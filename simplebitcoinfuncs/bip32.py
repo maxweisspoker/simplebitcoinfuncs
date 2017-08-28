@@ -6,20 +6,23 @@ import hmac
 import hashlib
 from binascii import hexlify, unhexlify
 try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
+try:
     from .ecmath import *
     from .hexhashes import *
     from .base58 import *
     from .miscfuncs import *
     from .miscbitcoinfuncs import *
     from .bitcoin import *
-except ValueError:
-    from ecmath import *
-    from hexhashes import *
-    from base58 import *
-    from miscfuncs import *
-    from miscbitcoinfuncs import *
-    from bitcoin import *
-except SystemError:
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
     from ecmath import *
     from hexhashes import *
     from base58 import *
@@ -47,7 +50,9 @@ class BIP32(object):
     private xprv key.
     '''
 
-    def __init__(self, a=genkeyhex(), istestnet=False):
+    def __init__(self, a=None, istestnet=False):
+        if a is None:
+            a = genkeyhex()
         if a[:4] == 'xpub' or a[:4] == 'tpub':
             assert BIP32.validkey(a)
             ispub = True

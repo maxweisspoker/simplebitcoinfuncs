@@ -33,6 +33,10 @@ code below.
 
 from binascii import hexlify, unhexlify
 import sys, hashlib
+try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
 
 
 b58_digits = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'

@@ -8,18 +8,22 @@ import hashlib
 import datetime
 from binascii import hexlify, unhexlify
 try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
+try:
     from .hexhashes import *
     from .base58 import *
     from .miscfuncs import *
     from .miscbitcoinfuncs import *
     from .bitcoin import *
-except ValueError:
-    from hexhashes import *
-    from base58 import *
-    from miscfuncs import *
-    from miscbitcoinfuncs import *
-    from bitcoin import *
-except SystemError:
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
     from hexhashes import *
     from base58 import *
     from miscfuncs import *

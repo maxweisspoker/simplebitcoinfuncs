@@ -6,6 +6,11 @@ from __future__ import division
 from pbkdf2 import PBKDF2
 from binascii import hexlify, unhexlify
 try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
+try:
     from .hexhashes import *
     from .base58 import *
     from .miscfuncs import *
@@ -13,15 +18,12 @@ try:
     from .bitcoin import *
     from .bip32 import *
     from .bip39wordlists import BIP39ENGWORDLIST
-except ValueError:
-    from hexhashes import *
-    from base58 import *
-    from miscfuncs import *
-    from miscbitcoinfuncs import *
-    from bitcoin import *
-    from bip32 import *
-    from bip39wordlists import BIP39ENGWORDLIST
-except SystemError:
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
     from hexhashes import *
     from base58 import *
     from miscfuncs import *

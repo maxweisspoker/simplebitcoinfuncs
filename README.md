@@ -95,6 +95,12 @@ Signing and Verifying:
         returns hex_string_pubkey
 
 
+RFC6979:
+
+    generate_k(64_char_hexstr_privkey, 64_char_hexstr_data_hash):
+        returns int/long k value
+
+
 Stealth Address Payments:
 
     newstealthaddr(scanpriv=new_random, spend_priv=new_random, prefixbyte_check=1, prefixbyte='00'):

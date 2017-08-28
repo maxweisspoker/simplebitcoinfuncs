@@ -13,6 +13,11 @@ try:
 except ImportError:
     pass
 try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
+try:
     from .ecmath import *
     from .hexhashes import *
     from .base58 import *
@@ -20,16 +25,13 @@ try:
     from .miscbitcoinfuncs import *
     from .bitcoin import *
     from .bip39wordlists import *
-except ValueError:
-    from ecmath import *
-    from hexhashes import *
-    from base58 import *
-    from miscfuncs import *
-    from miscbitcoinfuncs import *
-    from bitcoin import *
-    from bip39wordlists import *
-except SystemError:
-    from ecmath import *
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
+        from ecmath import *
     from hexhashes import *
     from base58 import *
     from miscfuncs import *
@@ -41,6 +43,8 @@ except SystemError:
 # TODO: Fix foreign language wordlists.
 # Checks for everything but English aren't validating
 # Figure out why!
+# This is very low priority since nobody is using anything except English anywhere.
+# But this may become important in the future, so get it done when you can.
 
 
 class BIP39(object):

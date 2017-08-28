@@ -14,16 +14,21 @@ import os
 import datetime
 from binascii import hexlify, unhexlify
 try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
+try:
     from .hexhashes import hash256
     from .ecmath import N
     from .base58 import b58e
     from .miscfuncs import *
-except ValueError:
-    from hexhashes import hash256
-    from ecmath import N
-    from base58 import b58e
-    from miscfuncs import *
-except SystemError:
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
     from hexhashes import hash256
     from ecmath import N
     from base58 import b58e

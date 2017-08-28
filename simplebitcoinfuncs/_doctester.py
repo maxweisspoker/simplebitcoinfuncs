@@ -19,19 +19,44 @@ except:    pass
 
 from codecs import decode
 from binascii import hexlify, unhexlify
+try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
 
-from hexhashes import *
-from ecmath import *
-from base58 import *
-from miscfuncs import *
-from miscbitcoinfuncs import *
-from bitcoin import *
-from signandverify import *
-from stealth import *
-from bip32 import *
-from bip39 import *
-from electrum1 import *
-from electrum2 import *
+try:
+    from .hexhashes import *
+    from .ecmath import *
+    from .base58 import *
+    from .miscfuncs import *
+    from .miscbitcoinfuncs import *
+    from .bitcoin import *
+    from .signandverify import *
+    from .stealth import *
+    from .bip32 import *
+    from .bip39 import *
+    from .electrum1 import *
+    from .electrum2 import *
+    from .rfc6979 import generate_k
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
+    from hexhashes import *
+    from ecmath import *
+    from base58 import *
+    from miscfuncs import *
+    from miscbitcoinfuncs import *
+    from bitcoin import *
+    from signandverify import *
+    from stealth import *
+    from bip32 import *
+    from bip39 import *
+    from electrum1 import *
+    from electrum2 import *
+    from rfc6979 import generate_k
 
 
 def hexhashes_py___doctest():
@@ -548,6 +573,73 @@ def signandverify_py___doctest():
     '''
     return
 
+
+def rfc6979_generate_k___doctest():
+    '''
+    >>> ########
+    >>> # Test vectors from https://bitcointalk.org/index.php?topic=285142.40
+    >>> ########
+
+    >>> h = sha256(hexlify(b"Satoshi Nakamoto"))
+    >>> p = dechex(1, 32)
+    >>> k = generate_k(p, h)
+    >>> k == 0x8F8A276C19F4149656B280621E358CCE24F5F52542772691EE69063B74F15D15
+    True
+
+    >>> h = sha256(hexlify(b"All those moments will be lost in time, like tears in rain. Time to die..."))
+    >>> k = generate_k(p, h)
+    >>> k == 0x38AA22D72376B4DBC472E06C3BA403EE0A394DA63FC58D88686C611ABA98D6B3
+    True
+
+    >>> h = sha256(hexlify(b"Satoshi Nakamoto"))
+    >>> p = dechex(int(0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364140),32)
+    >>> k = generate_k(p, h)
+    >>> k == 0x33A19B60E25FB6F4435AF53A3D42D493644827367E6453928554F43E49AA6F90
+    True
+
+    >>> h = sha256(hexlify(b"Alan Turing"))
+    >>> p = dechex(int(0xf8b8af8ce3c7cca5e300d33939540c10d45ce001b8f252bfbc57ba0342904181),32)
+    >>> k = generate_k(p, h)
+    >>> k == 0x525A82B70E67874398067543FD84C83D30C175FDC45FDEEE082FE13B1D7CFDF1
+    True
+
+    >>> h = sha256(hexlify(b"There is a computer disease that anybody who works " \
+                         + b"with computers knows about. It's a very serious " \
+                         + b"disease and it interferes completely with the work. " \
+                         + b"The trouble with computers is that you 'play' with " \
+                         + b"them!"))
+    >>> p = dechex(int(0xe91671c46231f833a6406ccbea0e3e392c76c167bac1cb013f6f1013980455c2),32)
+    >>> k = generate_k(p, h)
+    >>> k == 0x1F4B84C23A86A221D233F2521BE018D9318639D5B8BBD6374A8A59232D16AD3D
+    True
+
+    >>> p, z1, z2 = wiftohex("KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn")
+    >>> h = sha256(hexlify(b"Everything should be made as simple as possible, but not simpler."))
+    >>> k = generate_k(p, h)
+    >>> sign(h,p,k)
+    '3044022033a69cd2065432a30f3d1ce4eb0d59b8ab58c74f27c41a7fdb5696ad4e6108c902206f807982866f785d3f6418d24163ddae117b7db4d5fdf0071de069fa54342262'
+
+    >>> p, z1, z2 = wiftohex("L5oLkpV3aqBjhki6LmvChTCV6odsp4SXM6FfU2Gppt5kFLaHLuZ9")
+    >>> h = sha256(hexlify(b"Equations are more important to me, because " \
+                         + b"politics is for the present, but an equation " \
+                         + b"is something for eternity."))
+    >>> k = generate_k(p, h)
+    >>> sign(h,p,k)
+    '3044022054c4a33c6423d689378f160a7ff8b61330444abb58fb470f96ea16d99d4a2fed022007082304410efa6b2943111b6a4e0aaa7b7db55a07e9861d1fb3cb1f421044a5'
+
+    >>> p, z1, z2 = wiftohex("L5oLkpV3aqBjhki6LmvChTCV6odsp4SXM6FfU2Gppt5kFLaHLuZ9")
+    >>> h = sha256(hexlify(b"Not only is the Universe stranger than we think, it is stranger than we can think."))
+    >>> k = generate_k(p, h)
+    >>> sign(h,p,k)
+    '3045022100ff466a9f1b7b273e2f4c3ffe032eb2e814121ed18ef84665d0f515360dab3dd002206fc95f5132e5ecfdc8e5e6e616cc77151455d46ed48f5589b7db7771a332b283'
+
+    >>> p = '0000000000000000000000000000000000000000000000000000000000000001'
+    >>> h = sha256(hexlify(b"How wonderful that we have met with a paradox. " \
+                         + b"Now we have some hope of making progress."))
+    >>> k = generate_k(p, h)
+    >>> sign(h,p,k)
+    '3045022100c0dafec8251f1d5010289d210232220b03202cba34ec11fec58b3e93a85b91d3022075afdc06b7d6322a590955bf264e7aaa155847f614d80078a90292fe205064d3'
+    '''
 
 
 def stealth_py___doctest():

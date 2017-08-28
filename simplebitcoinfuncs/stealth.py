@@ -2,20 +2,30 @@
 # -*- coding: utf-8 -*-
 
 
+'''
+A set of simple functions to generate stealth address and OP_RETURN hex for
+use with "vJM" type stealth addresses.
+'''
+
+
 from binascii import hexlify, unhexlify
+try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
 try:
     from .hexhashes import *
     from .base58 import *
     from .miscfuncs import *
     from .miscbitcoinfuncs import *
     from .bitcoin import *
-except ValueError:
-    from hexhashes import *
-    from base58 import *
-    from miscfuncs import *
-    from miscbitcoinfuncs import *
-    from bitcoin import *
-except SystemError:
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
     from hexhashes import *
     from base58 import *
     from miscfuncs import *
@@ -23,8 +33,7 @@ except SystemError:
     from bitcoin import *
 
 
-def paystealth(stealthaddr,ephempriv=genkeyhex(),
-               _doctest_nonce=(int(genkeyhex(),16) % (2**32))):
+def paystealth(stealthaddr,ephempriv=genkeyhex(),_doctest_nonce=-1):
     '''
     Input a stealth address, and optionally an ephemeral private key,
     and generate a payment pubkey and stealth OP_RETURN data.
@@ -57,7 +66,12 @@ def paystealth(stealthaddr,ephempriv=genkeyhex(),
     secret = sha256(multiplypub(scanpub,ephempriv,True))
     paykey = addpubs(spendpub,privtopub(secret,False),True)
 
-    nonce = _doctest_nonce
+    if _doctest_nonce == -1:
+        nonce = int(genkeyhex(),16) % (2**32)
+    else:
+        nonce = _doctest_nonce
+    assert nonce < 4294967296 and nonce >= 0
+    startingnonce = nonce
     while True:
         if nonce > 4294967295:
             nonce = 0
@@ -95,7 +109,7 @@ def paystealth(stealthaddr,ephempriv=genkeyhex(),
         if not cont:
             break
         nonce += 1
-        if nonce == _doctest_nonce:
+        if nonce == startingnonce:
             raise Exception("No valid nonce was found. A different ephemeral key must be used.")
     return paykey, '06' + noncehex + ephempub
 
@@ -117,8 +131,12 @@ def receivestealth(scanpriv,spendpriv,ephempub):
     return addprivkeys(sha256(multiplypub(ephempub,scanpriv,True)),spendpriv)
 
 
-def newstealthaddr(scanpriv=genkeyhex(), spendpriv=genkeyhex(), \
-                  prefixlen=1, prefixbyte='00'):
+def newstealthaddr(scanpriv=None, spendpriv=None,
+                   prefixlen=1, prefixbyte='00'):
+    if scanpriv is None:
+        scanpriv = genkeyhex()
+    if spendpriv is None:
+        spendpriv = genkeyhex()
     scanpriv = privtohex(scanpriv)
     spendpriv = privtohex(spendpriv)
     prefixlen = int(prefixlen)

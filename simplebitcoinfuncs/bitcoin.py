@@ -4,18 +4,22 @@
 
 from binascii import hexlify, unhexlify
 try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
+
+try:
     from .hexhashes import *
     from .ecmath import *
     from .base58 import *
     from .miscfuncs import *
     from .miscbitcoinfuncs import *
-except ValueError:
-    from hexhashes import *
-    from ecmath import *
-    from base58 import *
-    from miscfuncs import *
-    from miscbitcoinfuncs import *
-except SystemError:
+except Exception as e:
+    if type(e) != ImportError and \
+       type(e) != ModuleNotFoundError and \
+       type(e) != ValueError and \
+       type(e) != SystemError:
+        raise Exception("Unknown problem with imports.")
     from hexhashes import *
     from ecmath import *
     from base58 import *
@@ -240,6 +244,7 @@ def privtohex(key):
     else:
         try:
             key, z, zz = wiftohex(key)
+            assert len(key) == 64
         except:
             try:
                 key = unhexlify(key)

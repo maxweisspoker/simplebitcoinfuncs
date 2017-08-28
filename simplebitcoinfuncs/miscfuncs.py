@@ -15,6 +15,10 @@ try:
     from codecs import decode
 except ImportError:
     pass
+try:
+    ModuleNotFoundError
+except:
+    ModuleNotFoundError = ImportError
 
 
 def strlify(a):
