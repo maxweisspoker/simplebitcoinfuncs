@@ -1,3 +1,6 @@
+# DEPRECATED
+I'm deprecating this library, since I know I'm not going to work on it, and if I do, it will be a complete rewrite.  This is some of the first code I ever wrote, and it's gross and sloppy not a good representation of my current knowledge and ability. But a handful of people have told me they found it useful, and it's always good to have some humbling reminders of one's atrocious beginnings, so I'm leaving it up.
+
 ## simplebitcoinfuncs
 Simple, easy, and quick Python 2/3 functions for common Bitcoin operations
 
